@@ -1,0 +1,109 @@
+name: "oneLayer"
+
+layer {
+  name: "in"
+  type: "Data"
+  top: "input"
+  top: "label"
+  data_param {
+    source: "input_leveldb"
+    batch_size: 64
+  }
+}
+
+layer {
+  name: "expected"
+  type: "Data"
+  top: "exp"
+  top: "label"
+  data_param {
+    source: "input_leveldb"
+    batch_size: 64
+  }
+}
+
+layer {
+    name: "filter1"
+    type: "Convolution"
+    bottom: "input"
+    top: "oneFilter"
+    # learning rate and decay multipliers for the filters
+    param { lr_mult: 1 decay_mult: 1 }
+    # learning rate and decay multipliers for the biases
+    param { lr_mult: 2 decay_mult: 0 }
+    convolution_param {
+            num_output: 3
+            kernel size: 3
+    	stride: 1
+    	weight_filler {
+    	    type: "gaussian"
+    	    std: 0.01
+    	}
+    	bias_filler {
+    	    type: "constant"
+    	    std: 0
+    	}
+        pad_w: 1
+        pad_h: 1
+    }
+}
+
+layer {
+    name: "filter2"
+    type: "Convolution"
+    bottom: "oneFilter"
+    top: "twoFilter"
+    # learning rate and decay multipliers for the filters
+    param { lr_mult: 1 decay_mult: 1 }
+    # learning rate and decay multipliers for the biases
+    param { lr_mult: 2 decay_mult: 0 }
+    convolution_param {
+            num_output: 3
+            kernel size: 3
+    	stride: 1
+    	weight_filler {
+    	    type: "gaussian"
+    	    std: 0.01
+    	}
+    	bias_filler {
+    	    type: "constant"
+    	    std: 0
+    	}
+        pad_w: 1
+        pad_h: 1
+    }
+}
+
+layer {
+    name: "filter3"
+    type: "Convolution"
+    bottom: "twoFilter"
+    top: "output"
+    # learning rate and decay multipliers for the filters
+    param { lr_mult: 1 decay_mult: 1 }
+    # learning rate and decay multipliers for the biases
+    param { lr_mult: 2 decay_mult: 0 }
+    convolution_param {
+            num_output: 3
+            kernel size: 3
+    	stride: 1
+    	weight_filler {
+    	    type: "gaussian"
+    	    std: 0.01
+    	}
+    	bias_filler {
+    	    type: "constant"
+    	    std: 0
+    	}
+        pad_w: 1
+        pad_h: 1
+    }
+}
+
+layer {
+  name: "loss"
+  type: "EuclideanLoss"
+  bottom: "output"
+  bottom: "exp"
+  top: "error"
+}
