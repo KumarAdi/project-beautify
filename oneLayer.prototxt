@@ -5,9 +5,13 @@ layer {
   type: "Data"
   top: "input"
   top: "label"
+  transform_param {
+    scale: 0.00390625
+  }
   data_param {
-    source: "input_leveldb"
+    source: "examples/mnist/mnist_train_lmdb"
     batch_size: 64
+    backend: LMDB
   }
 }
 
@@ -16,9 +20,13 @@ layer {
   type: "Data"
   top: "exp"
   top: "label"
+  transform_param {
+    scale: 0.00390625
+  }
   data_param {
-    source: "input_leveldb"
+    source: "examples/mnist/mnist_train_lmdb"
     batch_size: 64
+    backend: LMDB
   }
 }
 
