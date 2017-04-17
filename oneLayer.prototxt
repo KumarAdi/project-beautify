@@ -2,31 +2,27 @@ name: "oneLayer"
 
 layer {
   name: "in"
-  type: "Data"
+  type: "ImageData"
   top: "input"
-  top: "label"
-  transform_param {
-    scale: 0.00390625
-  }
-  data_param {
-    source: "examples/mnist/mnist_train_lmdb"
-    batch_size: 64
-    backend: LMDB
+  top: "label1"
+  image_data_param {
+    source: "examples/mnist/tiffs.txt"
+    batch_size: 50
+    new_height: 256
+    new_width: 256
   }
 }
 
 layer {
   name: "expected"
-  type: "Data"
+  type: "ImageData"
   top: "exp"
-  top: "label"
-  transform_param {
-    scale: 0.00390625
-  }
-  data_param {
-    source: "examples/mnist/mnist_train_lmdb"
-    batch_size: 64
-    backend: LMDB
+  top: "label2"
+  image_data_param {
+    source: "examples/mnist/tiffs.txt"
+    batch_size: 50
+    new_height: 256
+    new_width: 256
   }
 }
 
